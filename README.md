@@ -8,5 +8,5 @@ Its aims are:
 
 If you have any problems, please search for a similar issue first, before creating [a new one][new-issue]. 
 
-> Also, check the list of [known issues][known-issues] before doing so.
+> Also, please check the list of [known issues][known-issues] before doing so.
 
