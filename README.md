@@ -1,4 +1,4 @@
-# ![InstallTools][img-logo]
+![InstallTools][img-logo]
 ## Introduction
 InstallTools is a small wrapper around chocolatey to install tools on your brand new machine. Given a configuration file (which is an xml file ) you can easily add/install/upgrade/uninstall any tool. Using install tools  you can also copy directories, delete directories,copy files , delete files, download files from internet to further configure your tool.
 
