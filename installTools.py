@@ -178,13 +178,17 @@ class makedirectory():
         Helpers.logStatement("Make Directory Module")
         try:
             directoryToMake = entry.text
-            logger.info("Directory to make : {0}".format(directoryToMake))
-            if(os.path.exists(directoryToMake) and os.path.isdir(directoryToMake)):
+            active = entry.attrib['active']
+            if(active): 
+                logger.info("Directory to make : {0}".format(directoryToMake))
+                if(os.path.exists(directoryToMake) and os.path.isdir(directoryToMake)):
                 logger.info("Directory : {0} already exists".format(directoryToMake));
                 return
+                else:
+                    Helpers.make_dir(directoryToMake)
+                    logger.info("Directory : {0} created successfully".format(directoryToMake))
             else:
-                Helpers.make_dir(directoryToMake)
-                logger.info("Directory : {0} created successfully".format(directoryToMake))
+                logger.info("active flag is set to false, make directory will not executed")
             pass
         except Exception as e:
             logger.error(str(e))
