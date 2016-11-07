@@ -22,4 +22,4 @@ See [CHANGELOG.md][changelog].
 <!-- Resources -->
 
 [img-logo]: https://raw.githubusercontent.com/gj1118/Installtools/master/logo.png
-[changelog]: https://github.com/gj1118/InstallTools/master/CHANGELOG.md
+[changelog]: https://github.com/gj1118/Installtools/blob/master/CHANGELOG.md
