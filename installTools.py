@@ -35,7 +35,7 @@ def main():
     # - copy configuration to '%APPDATA%\Sublime Text 3'
     if platform == 'Windows':
         if(logger == None):
-            print("Logger is none");
+            print("Logger object is null or undefined. Logging will not be done.");
         logger.info("Windows OS detected")
         print "Start work"
         app_path = r"C:/Program Files/Sublime Text 3/subl.exe"
@@ -48,7 +48,7 @@ def main():
         print "End Work. For more information please see the log file"
         sys.exit(0)
     else:
-        print("An error was encountered. The error follows")
+        print("Operating system is not supported. Please make sure that you are running this script on a WindowsOS")
         raise Exception('Operating system not supported')
         sys.exit(1)
 
@@ -197,13 +197,17 @@ class deletedirectory():
     def handle(entry,config):
         Helpers.logStatement("Delete Directory Module")
         try:
-            directoryToDelete = entry.text
-            logger.info("Directory to delete : {0}".format(directoryToDelete))
-            if(os.path.exists(directoryToDelete) and os.path.isdir(directoryToDelete)):
-                shutil.rmtree(directoryToDelete)
-                logger.info("Directory was removed")
+            active = entry.attrib['active']
+            if(active):
+                directoryToDelete = entry.text
+                logger.info("Directory to delete : {0}".format(directoryToDelete))
+                if(os.path.exists(directoryToDelete) and os.path.isdir(directoryToDelete)):
+                    shutil.rmtree(directoryToDelete)
+                    logger.info("Directory was removed")
+                else:
+                    logger.info("Directory does not exist, or the given path is not a directory")
             else:
-                logger.info("Directory does not exist, or the given path is not a directory")
+                logger.info("Delete directory module is not set active. It will not be executed")
             pass
         except Exception as e:
             logger.error(str(e))
@@ -255,10 +259,14 @@ class copydirectory():
         try:
             sourceDirectory = entry.attrib['sourcedirectory']
             targetDirectory = entry.attrib['targetdirectory']
-            logger.info("source directory : {0}".format(sourceDirectory))
-            logger.info("target directory : {0}".format(targetDirectory))
-            Helpers.copytree(sourceDirectory, targetDirectory)
-            logger.info("Directory copied successfully")
+            active = entry.attrib['active']
+            if(active):
+                logger.info("source directory : {0}".format(sourceDirectory))
+                logger.info("target directory : {0}".format(targetDirectory))
+                Helpers.copytree(sourceDirectory, targetDirectory)
+                logger.info("Directory copied successfully")
+            else:
+                logger.info("Copy directory is not active, hence the step will not be executed.")
             pass
         except Exception as e:
             print(str(e))
