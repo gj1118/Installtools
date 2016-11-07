@@ -221,7 +221,8 @@ class copyfile():
         Helpers.logStatement("Copy File Module")
         try:
             sourceFile = entry.attrib['sourceFile'] 
-            if(os.path.exists(sourceFile) and os.path.isfile(sourceFile)):
+            active = entry.attrib['active']
+            if(active and os.path.exists(sourceFile) and os.path.isfile(sourceFile)):
                 targetDirectory = entry.attrib['targetDirectory']
                 newFileName = entry.attrib['newFileName']
                 if(newFileName is None):
