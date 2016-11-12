@@ -51,9 +51,13 @@ def installChocolateyIfNotInstalled():
         if not Helpers.is_installed(['chocolatey']):
             print('Chocolatey is not installed. Will attempt to install chocolatey')
             logger.info('Chocolatey is not installed. Will attempt to install chocolatey')
-            os.system("chocoinstall.cmd")
-            logger.info("chocolatey installed")
-            print('Chocolatey Installation complete. Please launch this exe again as an admin. Please note this is only required if choco is not installed. If it is already installed, this step is skipped...')
+            if(os.path.exists("chocoinstall.cmd")) :
+                os.system("chocoinstall.cmd")
+                logger.info("chocolatey installed")
+                print('Chocolatey Installation complete. Please launch this exe again as an admin. Please note this is only required if choco is not installed. If it is already installed, this step is skipped...')
+            else:
+                print("chocoinstall.cmd file is not present. It should be present in the same folder as this script.")
+                logger.info("chocoinstall.cmd file is not present. It should be present in the same folder as this script.")
         else:
             installOtherTools()
 
