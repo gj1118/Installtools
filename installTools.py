@@ -159,12 +159,13 @@ class filedelete():
         try:
             # logger.info("File delete process started")
             fileToDelete = entry.text
+            active = entry.attrib['active']
             logger.info("File to delete :{0}".format(fileToDelete))
-            if(os.path.exists(fileToDelete) and os.path.isfile(fileToDelete)):
+            if(active and os.path.exists(fileToDelete) and os.path.isfile(fileToDelete)):
                 os.remove(fileToDelete)
                 logger.info("File : {0} was removed".format(fileToDelete))
             else:
-                logger.info("either the file does not exist, or the file is not of type file. The path that was supplied : {0}".format(fileToDelete))
+                logger.info("Please make sure that active flag is set to true. If it is set to true then either the file does not exist, or the file is not of type file. The path that was supplied : {0}".format(fileToDelete))
             pass
         except Exception as e:
             logger.error(str(e))
