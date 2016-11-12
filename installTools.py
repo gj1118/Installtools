@@ -32,19 +32,11 @@ def main():
     createLogger()
     # Windows Setup:
     # - check and notify user to install
-    # - copy configuration to '%APPDATA%\Sublime Text 3'
     if platform == 'Windows':
         if(logger == None):
             print("Logger object is null or undefined. Logging will not be done.");
         logger.info("Windows OS detected")
-        print "Start work"
-        app_path = r"C:/Program Files/Sublime Text 3/subl.exe"
-        config_path = os.getenv('APPDATA') + '/Sublime Text 3'
-        if not Helpers.is_installed(app_path):
-            logger.info('Sublime not installed...')
-            # install_windows(app_path)
-        # config(config_path)
-        installOtherTools()
+        installChocolateyIfNotInstalled()
         print "End Work. For more information please see the log file"
         sys.exit(0)
     else:
@@ -53,18 +45,18 @@ def main():
         sys.exit(1)
 
 # Windows installation instructions
-def install_windows(app_path):
-    print('Installing Sublime')
+def installChocolateyIfNotInstalled():
+    print('Will check if we need to install choco')
     try:
         if not Helpers.is_installed(['chocolatey']):
+            print('Chocolatey is not installed. Will attempt to install chocolatey')
             logger.info('Chocolatey is not installed. Will attempt to install chocolatey')
-            os.system("support\\windows\\chocoinstall.cmd")
+            os.system("chocoinstall.cmd")
             logger.info("chocolatey installed")
-            print("Please relaunch this script as an admin")
-        # p = subprocess.Popen(['choco', 'install', '-y', 'sublimetext3'],
-        # stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        os.system("choco install -y --force sublimetext3")
-        print('Installation complete...')
+            print('Chocolatey Installation complete. Please launch this exe again as an admin. Please note this is only required if choco is not installed. If it is already installed, this step is skipped...')
+        else:
+            installOtherTools()
+
     except OSError as e:
         print(e)
         sys.exit(1)
@@ -86,11 +78,11 @@ def installOtherTools():
             if(app.attrib["install"] == 'true'):
                 if "force" in app.attrib and app.attrib["force"]== 'true':
                     logger.info("App : {0} will be forcefully installed".format(appName));
-                    # os.system("choco install -y --force {0}".format(appName))
+                    os.system("choco install -y --force {0}".format(appName))
                     executeConfigurationInformation(appConfig, toolsConfig)
                 else:
                     logger.info("{0} will be installed".format(appName))
-                    # os.system("choco install -y {0}".format(appName))
+                    os.system("choco install -y {0}".format(appName))
                     executeConfigurationInformation(appConfig, toolsConfig)
             else:
                 logger.info("{0} will NOT be installed".format(appName))
@@ -133,7 +125,7 @@ class downloadfile():
         source = entry.attrib['source']
         target = entry.attrib['target']
         active = entry.attrib['active']
-        if(active):
+        if(active == 'true'):
             sourcePathFileName = ntpath.basename(source)
             logger.info("Will download the file : {0}".format(sourcePathFileName))
             logger.info("Download Location : {0}".format(source))
@@ -152,6 +144,27 @@ class downloadfile():
                 pass
 
 # FileDelete class
+class runcommand():
+    @staticmethod
+    def handle(entry,config):
+        Helpers.logStatement("Run Command Module")
+        try:
+            logger.info("Run command module stated")
+            commandToRun = entry.text
+            active = entry.attrib['active']
+            logger.info("Command to run :{0}".format(commandToRun))
+            if(active == 'true' and commandToRun ):
+                os.system(commandToRun)
+                logger.info("Command : {0} was executed".format(commandToRun))
+            else:
+                logger.info("Please make sure that active flag is set to true. If it is set to true then check the command specified. The command that was supplied : {0}".format(commandToRun))
+            pass
+        except Exception as e:
+            logger.error(str(e))
+            print(str(e))
+            pass
+
+# FileDelete class
 class filedelete():
     @staticmethod
     def handle(entry,config):
@@ -161,7 +174,7 @@ class filedelete():
             fileToDelete = entry.text
             active = entry.attrib['active']
             logger.info("File to delete :{0}".format(fileToDelete))
-            if(active and os.path.exists(fileToDelete) and os.path.isfile(fileToDelete)):
+            if(active == 'true' and os.path.exists(fileToDelete) and os.path.isfile(fileToDelete)):
                 os.remove(fileToDelete)
                 logger.info("File : {0} was removed".format(fileToDelete))
             else:
@@ -180,11 +193,11 @@ class makedirectory():
         try:
             directoryToMake = entry.text
             active = entry.attrib['active']
-            if(active): 
+            if(active  == 'true'): 
                 logger.info("Directory to make : {0}".format(directoryToMake))
                 if(os.path.exists(directoryToMake) and os.path.isdir(directoryToMake)):
-                logger.info("Directory : {0} already exists".format(directoryToMake));
-                return
+                    logger.info("Directory : {0} already exists".format(directoryToMake));
+                    return
                 else:
                     Helpers.make_dir(directoryToMake)
                     logger.info("Directory : {0} created successfully".format(directoryToMake))
@@ -203,7 +216,7 @@ class deletedirectory():
         Helpers.logStatement("Delete Directory Module")
         try:
             active = entry.attrib['active']
-            if(active):
+            if(active == 'true'):
                 directoryToDelete = entry.text
                 logger.info("Directory to delete : {0}".format(directoryToDelete))
                 if(os.path.exists(directoryToDelete) and os.path.isdir(directoryToDelete)):
@@ -227,7 +240,7 @@ class copyfile():
         try:
             sourceFile = entry.attrib['sourceFile'] 
             active = entry.attrib['active']
-            if(active and os.path.exists(sourceFile) and os.path.isfile(sourceFile)):
+            if(active == 'true' and os.path.exists(sourceFile) and os.path.isfile(sourceFile)):
                 targetDirectory = entry.attrib['targetDirectory']
                 newFileName = entry.attrib['newFileName']
                 if(newFileName is None):
@@ -266,7 +279,7 @@ class copydirectory():
             sourceDirectory = entry.attrib['sourcedirectory']
             targetDirectory = entry.attrib['targetdirectory']
             active = entry.attrib['active']
-            if(active):
+            if(active == 'true'):
                 logger.info("source directory : {0}".format(sourceDirectory))
                 logger.info("target directory : {0}".format(targetDirectory))
                 Helpers.copytree(sourceDirectory, targetDirectory)

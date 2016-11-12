@@ -9,7 +9,7 @@ setup(
     console=["installTools.py"],
     zipfile = None,
     data_files=[("",
-                 ["installTools.config"]),
+                 ["installTools.config","chocoinstall.cmd"]),
                 ],
     name='InstallTools',
     version='1.0.0',
