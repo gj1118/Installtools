@@ -9,7 +9,7 @@ Its primary aims are:
 
 If you have any problems, please search for a similar issue first, before creating [a new one][new-issue]. 
 
-> Also, please check the list of known before doing so.
+> Also, please check the list of known issues before doing so.
 
 ## Generating an exe 
 InstallTools uses [py2xe](http://www.py2exe.org/ "Py2exe") to generate an exe that can be run independently of a python installation. This exe is self contained and has no dependencies. All you need to do in that case, is to just copy it and execute it. 
