@@ -22,7 +22,7 @@ python setup.py py2exe
 > When running the generated exe, please make sure that the installTools.config file is in the same location as the script. If you have run the above py2exe command, then the installTools.config file will be copied to the dist folder along with the generated exe.
 
 ##Important 
-You need to run the generated exe from the command line. When running the generated exe from the command line, please make sure that you are running the command line as an admin. 
+You need to run the generated exe from the command line. When running the generated exe from the command line, please make sure that you are running the command line as an admin. If you think this is unwarranted , you can always clone the script and run it from your python command line.
 
 ## Changelog
 See [CHANGELOG.md][changelog].
