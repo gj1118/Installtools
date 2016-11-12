@@ -14,7 +14,12 @@ If you have any problems, please search for a similar issue first, before creati
 ## Generating an exe 
 InstallTools uses [py2xe](http://www.py2exe.org/ "Py2exe") to generate an exe that can be run independently of a python installation. This exe is self contained and has no dependencies. All you need to do in that case, is to just copy it and execute it. 
 
-> Please make sure that the installTools.config file is in the same location as the script is 
+Run the following from your command line (after installing py2exe) to generate an exe in the dist folder.(The dist folder will be created if it does not exist. If its exists, all its contents will be over written).
+```
+python setup.py py2exe
+```
+
+> When running the generated exe, please make sure that the installTools.config file is in the same location as the script. If you have run the above py2exe command, then the installTools.config file will be copied to the dist folder along with the generated exe.
 
 ## Changelog
 See [CHANGELOG.md][changelog].
