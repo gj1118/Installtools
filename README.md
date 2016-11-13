@@ -9,7 +9,7 @@ Its primary aims are:
 
 If you don't want to muck your hands with scripts, try downloading one of our releases and see how easy it is for you bring your system up from its bare bones state.
 
-If you have any problems, our sincere apologies, but can please search for a similar issue first, before creating a [new one][new-issue]?  
+If you have any problems, our sincere apologies, but can please [search][issues] for a similar issue first, before creating a [new one][new-issue]?  
 
 > Also, please check the list of known issues before doing so.
 
@@ -34,3 +34,4 @@ See [CHANGELOG.md][changelog].
 [img-logo]: https://raw.githubusercontent.com/gj1118/Installtools/master/logo.png
 [changelog]: https://github.com/gj1118/Installtools/blob/master/CHANGELOG.md
 [new-issue]: https://github.com/gj1118/Installtools/issues/new
+[issues]:https://github.com/gj1118/Installtools/issues
