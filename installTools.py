@@ -275,6 +275,7 @@ class copyfile():
             print(str(e))
             pass
 
+# Copy directory class
 class copydirectory():
     @staticmethod
     def handle(entry,config):
@@ -295,6 +296,34 @@ class copydirectory():
             print(str(e))
             logger.error(str(e))
             pass
+
+# checkout class
+class checkout():
+    @staticmethod
+    def handle(entry,config):
+        Helpers.logStatement("Checkout source Module")
+        try:
+            sourceLocation = entry.attrib["sourceLocation"]
+            targetLocation = entry.attrib["targetLocation"]
+            active = entry.attrib["active"]
+            checkoutParams = config.find(".//checkout").attrib['command']
+            if(active == 'true'):
+                logger.info("source location : {0}".format(sourceLocation))
+                logger.info("target location : {0}".format(targetLocation))
+                logger.info("checkout params: {0}".format(checkoutParams))
+                if(checkoutParams):
+                    completeCommand = checkoutParams.format(sourceLocation = sourceLocation, targetDirectory = targetLocation)
+                    logging.info("complete checkout command : {0}".format(completeCommand)) 
+                    os.system(completeCommand)
+                    logger.info("checkout command completed successfully")
+                else:
+                    logger.info("checkout params is null or empty. Command not executed")
+            else:
+                logger.info("Active flag is not set to true. This instruction will not be executed")
+            pass
+        except Exception as e:
+            print(e)
+            logger.error(e)
 
 # A class containting static helper methods used to perform the install +
 # config
