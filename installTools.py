@@ -14,7 +14,14 @@ config_path = ''
 
 def createLogger():
     global logger
-    logFile = "installTools_{0}.log".format(datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S'))
+    
+    # first check if the log directory exists
+    if(not os.path.exists("logs")):
+        # create the log directory 
+        os.makedirs("logs")
+
+    # the log directory should exist now.
+    logFile = "logs\\installTools_{0}.log".format(datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S'))
     # logFile = "installTools.log"
     logger = logging.getLogger("Rotating Log")
     logger.setLevel(logging.INFO)
