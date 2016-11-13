@@ -1,3 +1,9 @@
+##Nov 13, 2016
+New Changes in this release 
+1. Support for Checkout Source 
+2. The logs are placed in a subdirectory
+3. Some bug fixes
+
 ##Nov 11, 2016
 First Alpha Release 
 Supports the following commands 
