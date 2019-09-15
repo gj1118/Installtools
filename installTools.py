@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import platform , os, ntpath, sys,signal, subprocess, errno,shutil, urllib2
+import platform , os, ntpath, sys,signal, subprocess, errno,shutil
 import logging, time, datetime
 
 from logging.handlers import TimedRotatingFileHandler
