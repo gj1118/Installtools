@@ -1,9 +1,18 @@
 #!/usr/bin/env python
 
-import platform , os, ntpath, sys,signal, subprocess, errno,shutil
-import logging, time, datetime
-
+import platform
+import os
+import ntpath
+import sys
+import signal
+import subprocess
+import errno
+import shutil
+import logging
+import time
+import datetime
 from logging.handlers import TimedRotatingFileHandler
+import wget
 
 platform = platform.system()
 app_path = ''
@@ -14,28 +23,31 @@ config_path = ''
 
 def createLogger():
     global logger
-    
+
     # first check if the log directory exists
     if(not os.path.exists("logs")):
-        # create the log directory 
+        # create the log directory
         os.makedirs("logs")
 
     # the log directory should exist now.
-    logFile = "logs\\installTools_{0}.log".format(datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S'))
+    logFile = "logs\\installTools_{0}.log".format(
+        datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S'))
     # logFile = "installTools.log"
     logger = logging.getLogger("Rotating Log")
     logger.setLevel(logging.INFO)
     # add a rotating handler
-    handler = TimedRotatingFileHandler(logFile,when='d', interval=1, backupCount=10)
+    handler = TimedRotatingFileHandler(
+        logFile, when='d', interval=1, backupCount=10)
     logger.addHandler(handler)
     logger.info("******************************")
     logger.info("Logging Initiated")
-    logger.info("{0}".format(datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S')))
+    logger.info("{0}".format(
+        datetime.datetime.now().strftime('%Y_%m_%d %H_%M_%S')))
     logger.info("******************************")
 
 
 def main():
-    global logger    
+    global logger
     createLogger()
     # Windows Setup:
     # - check and notify user to install
@@ -52,19 +64,34 @@ def main():
         sys.exit(1)
 
 # Windows installation instructions
+
+
 def installChocolateyIfNotInstalled():
     print('Will check if we need to install choco')
     try:
         if not Helpers.is_installed(['chocolatey']):
             print('Chocolatey is not installed. Will attempt to install chocolatey')
-            logger.info('Chocolatey is not installed. Will attempt to install chocolatey')
-            if(os.path.exists("chocoinstall.cmd")) :
-                os.system("chocoinstall.cmd")
-                logger.info("chocolatey installed")
-                print('Chocolatey Installation complete. Please launch this exe again as an admin. Please note this is only required if choco is not installed. If it is already installed, this step is skipped...')
-            else:
-                print("chocoinstall.cmd file is not present. It should be present in the same folder as this script.")
-                logger.info("chocoinstall.cmd file is not present. It should be present in the same folder as this script.")
+            logger.info(
+                'Chocolatey is not installed. Will attempt to install chocolatey')
+            # wget.download("https://chocolatey.org/install.ps1", "install.ps1")
+            try:
+                wget.download("https://chocolatey.org/install.ps1", "install.ps1")
+                scriptPath = os.path.join(os.getcwd(), "install.ps1")
+                print("Current Script path : " + scriptPath)
+                if(os.path.exists("install.ps1")):
+                    command="""%systemroot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& '{0}' %*" """.format(scriptPath)
+                    os.system(command)
+
+            except Exception as e:
+                raise e
+            # if(os.path.exists("chocoinstall.cmd")) :
+            #     os.system("chocoinstall.cmd")
+            #     logger.info("chocolatey installed")
+            #     print('Chocolatey Installation complete. Please launch this exe again as an admin. Please note this is only required if choco is not installed. If it is already installed, this step is skipped...')
+            # else:
+            #     errorString = "chocoinstall.cmd file is not present. It should be present in the same folder as this script."
+            #     print(errorString)
+            #     logger.info(errorString)
         else:
             installOtherTools()
 
