@@ -44,7 +44,7 @@ def main():
             print("Logger object is null or undefined. Logging will not be done.");
         logger.info("Windows OS detected")
         installChocolateyIfNotInstalled()
-        print "End Work. For more information please see the log file"
+        print("End Work. For more information please see the log file")
         sys.exit(0)
     else:
         print("Operating system is not supported. Please make sure that you are running this script on a WindowsOS")
