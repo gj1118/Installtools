@@ -37,7 +37,7 @@ python setup.py py2exe
 
 ## 🔥 Important
 
-When running the generated exe or the script, please make sure that you are running **it as an admin**.
+When running the generated exe or the script, please make sure that you are running **it as an admin** 🧔.
 
 ## Changelog
 
